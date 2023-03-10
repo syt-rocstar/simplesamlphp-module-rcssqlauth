@@ -120,33 +120,37 @@ class SQL extends \SimpleSAML\Module\core\Auth\UserPassBase
     private function connect()
     {
         try {
-            $db1 = new PDO($this->dsn1, $this->username1, $this->password1, $this->options1);
+            $db = new PDO($this->dsn1, $this->username1, $this->password1, $this->options1);
+            $driver = explode(':', $this->dsn1, 2);
+            $driver = strtolower($driver[0]);
         } catch (PDOException $e) {
-            // Obfuscate the password if it's part of the dsn
-            $obfuscated_dsn =  preg_replace('/(user|password)=(.*?([;]|$))/', '${1}=***', $this->dsn1);
-
-            throw new Exception('sqlauth:' . $this->authId . ': - Failed to connect to \'' .
-                $obfuscated_dsn . '\': ' . $e->getMessage());
+            try {
+                $db = new PDO($this->dsn2, $this->username2, $this->password2, $this->options2);
+                $driver = explode(':', $this->dsn2, 2);
+                $driver = strtolower($driver[0]);
+            } catch (PDOException $e) {
+                // Obfuscate the password if it's part of the dsn
+                $obfuscated_dsn =  preg_replace('/(user|password)=(.*?([;]|$))/', '${1}=***', $this->dsn1);
+    
+                throw new Exception('sqlauth:' . $this->authId . ': - Failed to connect to \'' .
+                    $obfuscated_dsn . '\': ' . $e->getMessage());
+            }
         }
-
-        $db1->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $driver = explode(':', $this->dsn1, 2);
-        $driver = strtolower($driver[0]);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Driver specific initialization
         switch ($driver) {
             case 'mysql':
                 // Use UTF-8
-                $db1->exec("SET NAMES 'utf8mb4'");
+                $db->exec("SET NAMES 'utf8mb4'");
                 break;
             case 'pgsql':
                 // Use UTF-8
-                $db1->exec("SET NAMES 'UTF8'");
+                $db->exec("SET NAMES 'UTF8'");
                 break;
         }
 
-        return $db1;
+        return $db;
     }
 
     /**
