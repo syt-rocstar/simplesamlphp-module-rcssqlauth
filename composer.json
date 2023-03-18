@@ -1,6 +1,6 @@
 {
-    "name": "simplesamlphp/simplesamlphp-module-sqlauth",
-    "description": "This is a authentication module for authenticating a user against a SQL database",
+    "name": "rocstar/simplesamlphp-module-sqlauthmultidb",
+    "description": "This is an authentication module for authenticating a user against a SQL database and if that fails try a second SQL database",
     "type": "simplesamlphp-module",
     "keywords": ["simplesamlphp", "sqlauth"],
     "license": "LGPL-2.1-or-later",
