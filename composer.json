@@ -1,6 +1,6 @@
 {
-    "name": "rocstar/simplesamlphp-module-sqlauth_multidb",
-    "description": "This is an authentication module for authenticating a user against a SQL database and if that fails try a second SQL database",
+    "name": "rocstar/simplesamlphp-module-sqlmultidb",
+    "description": "This is an authentication module for authenticating a user against 2 SQL databases",
     "type": "simplesamlphp-module",
     "keywords": ["simplesamlphp", "sqlauth"],
     "license": "LGPL-2.1-or-later",
@@ -12,7 +12,7 @@
     ],
     "config": {
         "preferred-install": {
-            "simplesamlphp/simplesamlphp": "source",
+            "rocstar/simplesamlphp": "source",
             "*": "dist"
         },
         "allow-plugins": {
@@ -23,11 +23,6 @@
     "autoload": {
         "psr-4": {
             "SimpleSAML\\Module\\sqlauth\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
         }
     },
     "require": {
